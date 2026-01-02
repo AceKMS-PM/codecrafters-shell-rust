@@ -8,7 +8,11 @@ fn main() {
      io::stdout().flush().unwrap();
      let mut command = String::new();
      io::stdin().read_line(&mut command).unwrap();
+     if command.trim() != "exit" { // if command != "exit\n"
      println!("{}: command not found", command.trim());
+        continue
+     } else
+     {break};
 
  }
 }
