@@ -50,11 +50,12 @@ fn main() {
             let command_check = command_part[1];
             let mut found = false;
             for directory in paths {
-                let full_path = format!("{}/{}",directory,command_check);
-                if Path::new(&full_path).exists() {
-                    println!("{} is {}/{}", command_check,directory,command_check);
-                    found = true;
-                    break;
+                    let full_path = std::path::Path::new(directory).join(command_check);
+                    
+                    if full_path.exists() {
+                        println!("{} is {}", command_check, full_path.display());
+                        found = true;
+                        break;
                 };
 
             };
