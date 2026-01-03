@@ -2,7 +2,7 @@
 use std::io::{self, Write};
 use std::env;
 //use std::fs;
-use std::path::Path;
+use pathsearch::find_executable_in_path;
 
 fn main() {
     // TODO: Uncomment the code below to pass the first stage
@@ -15,6 +15,7 @@ fn main() {
      io::stdin().read_line(&mut command).unwrap();
     let command_line = command.trim();
 
+    const BUILTIN_COMMANDS: [&str; 3] = ["echo", "exit", "type"];
     //Liste dossier 
     let path_env = env::var("PATH").unwrap();
 
@@ -47,21 +48,19 @@ fn main() {
             if lenght < 2 {
                 println!("type : missing argument");
             } else {
-            let command_check = command_part[1];
-            let mut found = false;
-            for directory in paths {
-                    let full_path = std::path::Path::new(directory).join(command_check);
-                    
-                    if full_path.exists() {
-                        println!("{} is {}", command_check, full_path.display());
-                        found = true;
-                        break;
-                };
-
-            };
-            
-            if !found
-                {println!("{}: not found", command_check);}
+            if lenght < 2 {
+                println!("type : missing argument");
+            } else {
+                let command_check = command_part[1];
+            if BUILTIN_COMMANDS.contains(&command_check) {
+                    println!("{} is a shell builtin", command_check);
+                } else if let Some(path) = find_executable_in_path(command_check) {
+                    println!("{} is {}", command_check, path.to_str().unwrap().to_string());
+                } else {
+                    println!("{} not found", command);
+                }
+                
+        };
                 
         };
         }
