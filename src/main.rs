@@ -41,7 +41,7 @@ fn main() {
             if commandes_internes.contains(&command_check){
                 println!("{} is a shell builtin ",command_check);
             }else{
-                println!("{}: command not found", command_check);
+                println!("{}: not found", command_check);
             }
         };
         }
