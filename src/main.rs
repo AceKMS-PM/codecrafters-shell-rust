@@ -1,6 +1,7 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
-use std::env;
+use std::process::Command;
+
 //use std::fs;
 use pathsearch::find_executable_in_path;
 
@@ -17,10 +18,10 @@ fn main() {
 
     const BUILTIN_COMMANDS: [&str; 3] = ["echo", "exit", "type"];
     //Liste dossier 
-    let path_env = env::var("PATH").unwrap();
+    //let path_env = env::var("PATH").unwrap();
 
     //// split(':') transforme "/bin:/usr/bin" en ["/bin", "/usr/bin"]
-    let paths = path_env.split(":");
+    //let paths = path_env.split(":");
 
     // On liste ici toutes les commandes "intégrées" (built-ins)
 
@@ -38,7 +39,11 @@ fn main() {
 
     match command {
         "exit" => {
-            break
+            if lenght > 1 {
+                println!("one argument required");
+                continue
+            } else{break}
+            
         }
         "echo" => {
             let message = command_part[1..].join(" ");
@@ -66,7 +71,19 @@ fn main() {
         }
         // Le "_" veut dire "tout le reste" (l'erreur)
         _ => {
-            println!("{}: command not found", command);
+            if let Some(_path) = find_executable_in_path(command){
+                let status = Command::new(command)
+                .args(&command_part[1..])
+                .spawn()
+                .and_then(| mut child| child.wait());
+                
+                if let Err(_) = status {
+                    println!("{}: execution failed", command );
+                }
+
+            }else {
+                println!("{}: command not found", command);
+            }
         }
 
     }
