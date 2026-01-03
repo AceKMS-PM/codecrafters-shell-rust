@@ -57,7 +57,7 @@ fn main() {
                 } else if let Some(path) = find_executable_in_path(command_check) {
                     println!("{} is {}", command_check, path.to_str().unwrap().to_string());
                 } else {
-                    println!("{} not found", command);
+                    println!("{}: not found", command_check);
                 }
                 
         };
