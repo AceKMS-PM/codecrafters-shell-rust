@@ -1,17 +1,28 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
+use std::env;
+//use std::fs;
+use std::path::Path;
 
 fn main() {
     // TODO: Uncomment the code below to pass the first stage
  loop {
+
+    
      print!("$ ");
      io::stdout().flush().unwrap();
      let mut command = String::new();
      io::stdin().read_line(&mut command).unwrap();
     let command_line = command.trim();
 
+    //Liste dossier 
+    let path_env = env::var("PATH").unwrap();
+
+    //// split(':') transforme "/bin:/usr/bin" en ["/bin", "/usr/bin"]
+    let paths = path_env.split(":");
+
     // On liste ici toutes les commandes "intégrées" (built-ins)
-    let commandes_internes = ["exit", "echo", "type"];
+
 
     if command_line.is_empty(){continue};
 
@@ -37,12 +48,20 @@ fn main() {
                 println!("type : missing argument");
             } else {
             let command_check = command_part[1];
+            let mut found = false;
+            for directory in paths {
+                let full_path = format!("{}/{}",directory,command_check);
+                if Path::new(&full_path).exists() {
+                    println!("{} is {}/{}", command_check,directory,command_check);
+                    found = true;
+                    break;
+                };
+
+            };
             
-            if commandes_internes.contains(&command_check){
-                println!("{} is a shell builtin ",command_check);
-            }else{
-                println!("{}: not found", command_check);
-            }
+            if !found
+                {println!("{}: not found", command_check);}
+                
         };
         }
         // Le "_" veut dire "tout le reste" (l'erreur)
