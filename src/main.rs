@@ -1,6 +1,7 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
 use std::process::Command;
+use std::env;
 
 //use std::fs;
 use pathsearch::find_executable_in_path;
@@ -57,17 +58,27 @@ fn main() {
                 println!("type : missing argument");
             } else {
                 let command_check = command_part[1];
-            if BUILTIN_COMMANDS.contains(&command_check) {
-                    println!("{} is a shell builtin", command_check);
-                } else if let Some(path) = find_executable_in_path(command_check) {
-                    println!("{} is {}", command_check, path.to_str().unwrap().to_string());
-                } else {
-                    println!("{}: not found", command_check);
+                if BUILTIN_COMMANDS.contains(&command_check) {
+                        println!("{} is a shell builtin", command_check);
+                    } else if let Some(path) = find_executable_in_path(command_check) {
+                        println!("{} is {}", command_check, path.to_str().unwrap().to_string());
+                    } else {
+                        println!("{}: not found", command_check);
+                    }
+                
+                };     
+            };
+        }
+        "pwd" => {
+            if lenght > 1 {
+                println!("one argument require");
+                continue;
+            } else {
+                match  env::current_dir() {
+                    Ok(path) => println!("{}",path.display()),
+                    Err(_) => println!("execution failed")
                 }
-                
-        };
-                
-        };
+            }
         }
         // Le "_" veut dire "tout le reste" (l'erreur)
         _ => {
