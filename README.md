@@ -4,7 +4,7 @@ Zehhef j'aime bien
 ### CECI UN SHELL OU INVITE DE COMMANDE BASH
 
 
-## Si vous êtes sur Linux ca va fonctionner , sinon le reste moi je sais pas 
+## Si vous êtes sur Linux avec bash comme interpreteur ca va fonctionner , sinon le reste moi je sais pas 
 
 vous faites `git clone https://github.com/AceKMS-PM/codecrafters-shell-rust.git` pour récupérer le projet .
 
@@ -14,6 +14,6 @@ Enlever .git
 
 et puis pour compiler et tester c'est `./your_program.sh`
 
-Si j'ai le temps je vais jouter plus de fonctionnalités , le terminal n'est complet . Chuuuzzz
+Si j'ai le temps je vais ajouter plus de fonctionnalités , le terminal n'est pas complet . Chuuuzzz
 
 # C'EST JUSTE UN PROJET POUR M'AMUSER ET CREER DES TRUCS  , 
