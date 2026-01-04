@@ -17,7 +17,7 @@ fn main() {
      io::stdin().read_line(&mut command).unwrap();
     let command_line = command.trim();
 
-    const BUILTIN_COMMANDS: [&str; 3] = ["echo", "exit", "type","pwd"];
+    const BUILTIN_COMMANDS: [&str; 4] = ["echo", "exit", "type","pwd"];
     //Liste dossier 
     //let path_env = env::var("PATH").unwrap();
 
