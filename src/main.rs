@@ -87,11 +87,25 @@ fn main() {
             } else {
    
                 let dir_att = command_part[1..].join("");
-                let path = Path::new(&dir_att);
 
-                match env::set_current_dir(path) {
-                    Ok(_good) => continue,
-                    Err(_) => println!("cd: {}: No such file or directory",path.display())
+                match dir_att.as_str()
+                {           
+                    "~" => {
+                            if let Some(path) =  env::home_dir(){
+                                match env::set_current_dir(path) {
+                                Ok(_good) => continue,
+                                Err(_) => println!("Home directory not found")
+                                }
+                            }
+                    }
+                    _ => {
+                            let path = Path::new(&dir_att);
+
+                            match env::set_current_dir(path) {
+                                Ok(_good) => continue,
+                                Err(_) => println!("cd: {}: No such file or directory",path.display())
+                            }
+                    }
                 }
             }
         }
