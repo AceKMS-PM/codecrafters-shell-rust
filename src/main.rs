@@ -1,5 +1,6 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
+use std::path::Path;
 use std::process::Command;
 use std::env;
 
@@ -17,7 +18,7 @@ fn main() {
      io::stdin().read_line(&mut command).unwrap();
     let command_line = command.trim();
 
-    const BUILTIN_COMMANDS: [&str; 4] = ["echo", "exit", "type","pwd"];
+    const BUILTIN_COMMANDS: [&str; 5] = ["echo", "exit", "type","pwd","cd"];
     //Liste dossier 
     //let path_env = env::var("PATH").unwrap();
 
@@ -53,10 +54,7 @@ fn main() {
         "type" => {
             if lenght < 2 {
                 println!("type : missing argument");
-            } else {
-            if lenght < 2 {
-                println!("type : missing argument");
-            } else {
+            }  else {
                 let command_check = command_part[1];
                 if BUILTIN_COMMANDS.contains(&command_check) {
                         println!("{} is a shell builtin", command_check);
@@ -67,16 +65,33 @@ fn main() {
                     }
                 
                 };     
-            };
+
         }
         "pwd" => {
             if lenght > 1 {
-                println!("one argument require");
+                println!("one argument required");
                 continue;
             } else {
                 match  env::current_dir() {
                     Ok(path) => println!("{}",path.display()),
                     Err(_) => println!("execution failed")
+                }
+            }
+        }
+        "cd" => {
+            if lenght == 1 {
+                continue;
+            } else if lenght > 2 {
+                println!("one argument required");
+                continue;
+            } else {
+   
+                let dir_att = command_part[1..].join("");
+                let path = Path::new(&dir_att);
+
+                match env::set_current_dir(path) {
+                    Ok(_good) => continue,
+                    Err(_) => println!("cd: {}: No such file or directory",path.display())
                 }
             }
         }
